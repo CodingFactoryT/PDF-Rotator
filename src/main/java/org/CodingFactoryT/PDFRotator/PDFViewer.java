@@ -11,10 +11,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 
 public class PDFViewer extends JPanel implements FileChangedListener {
-    private File file;
-    private PDDocument pdfDocument;
+    private static File file;
+    private static PDDocument pdfDocument;
     private static ArrayList<PDFPage> pagePanels = new ArrayList<>();
     private static int selectedPageIndex = -1;  //-1 indicates that the index wasn't set yet
+    public static FileHandler fileHandler = new FileHandler();
 
     public ActionListener rotateCounterClockwiseListener = e -> {
         if(selectedPageIndex < 0){
@@ -40,12 +41,14 @@ public class PDFViewer extends JPanel implements FileChangedListener {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setOpaque(false);
 
+        fileHandler.addFileChangedListener(this);
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             if(pdfDocument != null){
+                if(FileHandler.getCurrentFile() != null){
+                    saveFile(FileHandler.getCurrentFile().getAbsolutePath());
+                }
                 try {
-                    if(FileSelector.getCurrentFile() != null){
-                        saveFile(FileSelector.getCurrentFilePath());
-                    }
                     pdfDocument.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -56,6 +59,8 @@ public class PDFViewer extends JPanel implements FileChangedListener {
 
     @Override
     public void fileChanged(File newFile) {
+        Main.getMainFrame().setCursor(Cursor.WAIT_CURSOR);
+        System.out.println("Changed: " + newFile);
         if(pdfDocument != null){
             try {
                 pdfDocument.close();
@@ -65,20 +70,21 @@ public class PDFViewer extends JPanel implements FileChangedListener {
         }
 
         this.removeAll();
+        pagePanels.clear();
 
         this.file = newFile;
 
         try {
-            pdfDocument = PDDocument.load(newFile);
+            this.pdfDocument = PDDocument.load(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         drawPages();
-
         if(pdfDocument.getPages().getCount() > 0){
             updateSelectedPage(0);
         }
+        Main.getMainFrame().setCursor(Cursor.DEFAULT_CURSOR);
     }
 
     private void drawPages(){
@@ -126,5 +132,8 @@ public class PDFViewer extends JPanel implements FileChangedListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        file = new File(path);
+        pdfDocument = newDocument;
     }
 }

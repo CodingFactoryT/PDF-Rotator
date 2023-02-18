@@ -1,9 +1,7 @@
 package org.CodingFactoryT.PDFRotator;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.File;
 
 public class MenuBar extends JMenuBar {
@@ -17,21 +15,22 @@ public class MenuBar extends JMenuBar {
         JMenuItem openItem = new JMenuItem("Open");
         openItem.setAccelerator(KeyStroke.getKeyStroke("control O"));
         openItem.addActionListener(e -> {
-            MainPanel.fileSelector.doClick();
+            PDFViewer.fileHandler.openFileWithFileChooser();
         });
 
         JMenuItem saveItem = new JMenuItem("Save");
         saveItem.setAccelerator(KeyStroke.getKeyStroke("control S"));
         saveItem.addActionListener(e -> {
-            if(FileSelector.getCurrentFile() != null){
-                PDFViewer.saveFile(FileSelector.getCurrentFilePath());
+            File currentFile = FileHandler.getCurrentFile();
+            if(currentFile != null){
+                PDFViewer.saveFile(currentFile.getAbsolutePath());
             }
         });
 
         /*JMenuItem saveAsItem = new JMenuItem("SaveAs");
         saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control shift S"));
         saveAsItem.addActionListener(e -> {
-            if(FileSelector.getCurrentFile() == null) {
+            if(FileHandler.getCurrentFile() == null) {
                 return;
             }
 

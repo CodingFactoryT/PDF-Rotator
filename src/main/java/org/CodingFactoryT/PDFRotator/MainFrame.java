@@ -2,6 +2,7 @@ package org.CodingFactoryT.PDFRotator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.dnd.DropTarget;
 
 public class MainFrame extends JFrame {
     public MainFrame() {
@@ -26,6 +27,7 @@ public class MainFrame extends JFrame {
         this.add(new MainPanel(), BorderLayout.CENTER);
         this.setMinimumSize(new Dimension(1150, 600));
         this.setLocationRelativeTo(null);
+        this.setDropTarget(new DropTarget(this, new FileDropTarget()));
         this.setVisible(true);
     }
 }

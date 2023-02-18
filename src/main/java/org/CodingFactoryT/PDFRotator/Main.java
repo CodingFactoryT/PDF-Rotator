@@ -1,7 +1,12 @@
 package org.CodingFactoryT.PDFRotator;
 
 public class Main {
+    private static MainFrame mainFrame;
     public static void main(String[] args) {
-        new MainFrame();
+        mainFrame = new MainFrame();
+    }
+
+    public static MainFrame getMainFrame(){
+        return mainFrame;
     }
 }

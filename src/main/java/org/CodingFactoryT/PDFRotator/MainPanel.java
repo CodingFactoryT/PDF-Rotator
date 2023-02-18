@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainPanel extends JPanel {
-    public static FileSelector fileSelector = new FileSelector();
     private PDFViewer pdfViewer = new PDFViewer();
     private JButton rotateClockwiseButton = new JButton("->");
     private JButton rotateCounterClockwiseButton = new JButton("<-");
@@ -14,8 +13,6 @@ public class MainPanel extends JPanel {
 
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new GridLayout());
-
-        fileSelector.addFileChangedListener(pdfViewer);
 
         rotateCounterClockwiseButton.addActionListener(pdfViewer.rotateCounterClockwiseListener);
         controlPanel.add(rotateCounterClockwiseButton);
