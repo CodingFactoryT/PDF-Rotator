@@ -1,6 +1,7 @@
 package org.CodingFactoryT.PDFRotator;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 
@@ -27,7 +28,7 @@ public class MenuBar extends JMenuBar {
             }
         });
 
-        /*JMenuItem saveAsItem = new JMenuItem("SaveAs");
+        JMenuItem saveAsItem = new JMenuItem("SaveAs");
         saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control shift S"));
         saveAsItem.addActionListener(e -> {
             if(FileHandler.getCurrentFile() == null) {
@@ -36,22 +37,25 @@ public class MenuBar extends JMenuBar {
 
             JFileChooser directoryChooser = new JFileChooser();
 
-            directoryChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            directoryChooser.setAcceptAllFileFilterUsed(false);
             directoryChooser.setDialogTitle("Select a directory to save your PDF");
+            directoryChooser.setAcceptAllFileFilterUsed(false);
+            directoryChooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF File", "pdf", "PDF"));
             directoryChooser.setMultiSelectionEnabled(false);
 
             int returnCode = directoryChooser.showOpenDialog(this);
             if(returnCode == JFileChooser.APPROVE_OPTION){
                 File pdf = directoryChooser.getSelectedFile();
-                FileSelector.setCurrentFilePath(pdf.getAbsolutePath());
-                PDFViewer.saveFile(FileSelector.getCurrentFilePath());
+                if(!pdf.getName().toLowerCase().endsWith(".pdf")){
+                    pdf = new File(pdf.getAbsolutePath() + ".pdf");
+                }
+                FileHandler.setCurrentFile(pdf);
+                PDFViewer.saveFile(FileHandler.getCurrentFile().getAbsolutePath());
             }
         });
-*/
+
         fileMenu.add(openItem);
         fileMenu.add(saveItem);
-        //fileMenu.add(saveAsItem);
+        fileMenu.add(saveAsItem);
 
         this.add(fileMenu);
     }
