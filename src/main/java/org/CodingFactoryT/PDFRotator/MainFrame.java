@@ -3,9 +3,10 @@ package org.CodingFactoryT.PDFRotator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.dnd.DropTarget;
+import java.io.IOException;
 
 public class MainFrame extends JFrame {
-    public MainFrame() {
+    public MainFrame() throws IOException {
         this.setJMenuBar(new MenuBar());
 
         try {
