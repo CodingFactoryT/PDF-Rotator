@@ -4,9 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.dnd.DropTarget;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class MainFrame extends JFrame {
     public MainFrame() throws IOException {
